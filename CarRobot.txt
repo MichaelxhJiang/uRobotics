@@ -1,0 +1,78 @@
+#pragma config(Sensor, in1, linetracker1, sensorLineFollower)
+#pragma config(Sensor, in2, linetracker2, sensorLineFollower)
+#pragma config(Sensor, in3, linetracker3, sensorReflection)
+#pragma config(Sensor, in1, linetracker1, sensorLineFollower)
+#pragma config(Sensor, in1, linetracker1, sensorLineFollower)
+
+int speed = 127;
+
+task main() {
+
+	SensorType[in8] = sensorNone;
+	wait1Msec(1000);
+	SensorType[in8] = sensorGyro;
+	wait1Msec(2000);
+
+	straight();
+	
+	int degrees90 = 900;
+	
+	if(SensorValue[centerline] > 1000) {
+		int desiredValue = degrees90;
+		acutalValue = get(sensorValue);
+		while(actualValue < desiredValue) {
+			motor[rightMotor] = 25;
+			motor[leftMotor] = -25;
+			wait(100);
+			motor[rightMotor] = 0;
+			motor(leftMotor] = 0;
+			actualValue = get(sensorValue);
+		}
+	}
+	
+	while(true) {
+		straight();
+		
+		if(SensorValue[leftline] > 2300) {
+			turnLeft();
+			untilDark(2200, centerline);
+		}
+		if(SensorValue[rightline] > 2300) {
+			turnRight();
+			untilDark(2200, centerline);
+		}
+		if(SensorValue[centerline] > 2250) {
+			straight();
+		}
+	}
+	
+	claw();
+	
+	SensorValue[rightEncoder] = 0;
+	SensorValue[leftEncoder] = 0;
+	
+	int rots = -2;
+	rots = rot*360;
+	
+	while(SensorValue[leftEncoder] < rots) {
+		motor[rightMotor] = -25;
+		motor[leftMotor] = -25;
+	}
+	
+	motor[rightMotor] = 0;
+	motor[leftMotor] = 0;
+	
+	int desiredValue = degrees90;
+	acutalValue = get(sensorValue);
+	while(actualValue < desiredValue) {
+		motor[rightMotor] = 25;
+		motor[leftMotor] = -25;
+		wait(100);
+		motor[rightMotor] = 0;
+		motor(leftMotor] = 0;
+		actualValue = get(sensorValue);
+	}
+	
+	while(
+}
+	
